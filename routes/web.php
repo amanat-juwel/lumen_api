@@ -15,14 +15,20 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix'=>'api/v1'], function() use($router){
+$router->group(['prefix'=>'api','middleware' => ['cors']], function() use($router){
 	$router->get('/product', 'ProductController@index');
 	$router->post('/product', 'ProductController@create');
 	$router->get('/product/{id}', 'ProductController@show');
 	$router->put('/product/{id}', 'ProductController@update');
 	$router->delete('/product/{id}', 'ProductController@destroy');
+
+	$router->post('register', 'UserController@register');
 });
 
+
 $router->post('/login', 'LoginController@login');
-$router->post('/register', 'UserController@register');
-$router->get('/user', ['middleware' => 'auth', 'uses' =>  'UserController@get_user']);
+//$router->post('/register', 'UserController@register');
+
+$router->post('/register', ['middleware' => ['cors'], 'uses' =>  'UserController@register']);
+
+$router->get('/user', ['middleware' => ['cors','auth'], 'uses' =>  'UserController@get_user']);

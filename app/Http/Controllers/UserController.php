@@ -8,24 +8,28 @@ use App\User;
 class UserController extends Controller
 {
     public function register(Request $request)
-    {
-        $rules = [
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-         ];
+    {   
+        return $request->status;
+        // return response($request['email']);
+        // return $request['email'];
 
-        $customMessages = [
-             'required' => 'Please fill attribute :attribute'
-        ];
+        // $rules = [
+        //     'username' => 'required',
+        //     'email' => 'required',
+        //     'password' => 'required',
+        //  ];
+
+        // $customMessages = [
+        //      'required' => 'Please fill attribute :attribute'
+        // ];
         
-        $this->validate($request, $rules, $customMessages);
+        // $this->validate($request, $rules, $customMessages);
 
         try {
             $hasher = app()->make('hash');
-            $username = $request->input('username');
-            $email = $request->input('email');
-            $password = $hasher->make($request->input('password'));
+            $username = $request['username'];
+            $email =  $request['email'];
+            $password = $hasher->make( $request['password']);
 
             $save = User::create([
                 'username'=> $username,

@@ -18,7 +18,7 @@ class ProductController extends Controller
         $products = Product::all();
 
         return response()->json($products);
-
+        //return view('home',compact('products'));
     }
 
     public function create(Request $request)
